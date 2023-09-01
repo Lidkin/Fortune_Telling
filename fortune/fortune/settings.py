@@ -17,12 +17,6 @@ import shutil
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Specify the path to the staticfiles directory
-# staticfiles_dir = BASE_DIR / 'staticfiles'
-
-# Use shutil to remove the contents of the directory
-# shutil.rmtree(staticfiles_dir)
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -46,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'telling_app',
     'rest_framework',
-    # 'corsheaders',
+    'corsheaders',
 
 ]
 
@@ -58,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'fortune.urls'
@@ -127,7 +121,9 @@ CORS_ORIGIN_ALLOW_ALL = True  # Set this to True to allow all origins
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000'  # Add your allowed front-end origins here
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Add your frontend origin here
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

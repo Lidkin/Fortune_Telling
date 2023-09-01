@@ -28,7 +28,6 @@ class GetRandomquote(APIView):
             return Response({"message":str(e)}, status=HTTP_404_NOT_FOUND)    
 
 class GetBooks(APIView):
-
     def get(self, request):
         try:
             books = Book.objects.all()
