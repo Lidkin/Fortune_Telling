@@ -6,6 +6,5 @@ class Book(models.Model):
     book = models.CharField(max_length=100)
 
 class Quotes(models.Model):
-    book_id = models.ForeignKey('Books', on_delete=models.CASCADE)
+    book = models.ForeignKey('Book', on_delete=models.CASCADE, null=True)
     quote = models.TextField()
-

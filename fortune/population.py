@@ -4,24 +4,24 @@ import django
 django.setup()
 
 
-from rent.models import *
+from telling_app.models import *
 from faker import Faker
 
 fake = Faker()
 
 def create_books(number):
     for _ in range(number):
-        book = Books(
-            author=fake.city(),
-            book=fake.book(),
-            postal_code=fake.zipcode()
+        book = Book(
+            author=fake.name(),
+            book=fake.city()
         )
-        b.save()
+        book.save()
 
         quote = Quotes(
-            quote=fake.street_address()
+            quote=fake.text()
         )
         quote.save()
 
     print(f"CREATED {number} Books")
 
+create_books(10)
