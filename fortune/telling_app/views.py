@@ -1,20 +1,38 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.status import (HTTP_200_OK,
+                                     HTTP_400_BAD_REQUEST,
+                                     HTTP_404_NOT_FOUND)
+
+from .serializers import *
+from .models import *
 
 # Create your views here.
 
 import random
 
-class GetRandomquote(APIview):
-    def pick_random_object(tytle):
-        return random.randrange(1, Quots.objects.get(tytle=tytle).count() + 1)
+class GetRandomquote(APIView):
 
-    def get(self, request, tytle:str):
-        pk = Books.objects.get(tytle=tytle)
+    def get(self, request, book:str):
         try:
-            item = Quote.objects.get(pk=pk)
-            serializer = RentalSerializer(item, context={'request': request})
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except ObjectDoesNotExist as e:    
-            return Response({"message":str(e)}, status=status.HTTP_404_NOT_FOUND)    
+            book = Book.objects.get(book=book)
+            book_serializer = BookSerializer(book)
+            book_id = book_serializer.data['id']
+            quotes = Quotes.objects.all().filter(book_id=book_id)
+            quotes_serializer = QuotesSerializer(quotes, many=True)
+            quotes_list = [quote['quote'] for quote in quotes_serializer.data]
+            quote = quotes_list[random.randrange(0, len(quotes_list))]
+            return Response(quote, status=HTTP_200_OK)
+        except Exception as e:    
+            return Response({"message":str(e)}, status=HTTP_404_NOT_FOUND)    
+
+class GetBooks(APIView):
+
+    def get(self, request):
+        try:
+            books = Book.objects.all()
+            serializer = BookSerializer(books, many=True)
+            return Response(serializer.data, status=HTTP_200_OK)
+        except Exception as e:    
+            return Response({"message":str(e)}, status=HTTP_404_NOT_FOUND)                

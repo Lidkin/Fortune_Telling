@@ -1,4 +1,5 @@
 import os
+import random
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fortune.settings')
 import django
 django.setup()
@@ -24,4 +25,14 @@ def create_books(number):
 
     print(f"CREATED {number} Books")
 
-create_books(10)
+
+def fill_quotes(number):
+    for _ in range(number):
+        quote = Quotes(
+            book_id=random.randrange(1,10),
+            quote=fake.text()
+            )
+        quote.save()
+
+# create_books(10)
+fill_quotes(50)
