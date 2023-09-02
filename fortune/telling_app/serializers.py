@@ -9,4 +9,9 @@ class BookSerializer(serializers.ModelSerializer):
 class QuotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quotes
-        fields = '__all__'        
+        fields = '__all__'  
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = '__all__'               

@@ -1,15 +1,10 @@
-const keyList = ['age', 'alone', 'amazing', 'anger', 'architecture', 'art', 'attitude', 'beauty', 'best', 'birthday', 'business',
-    'carchange', 'communications', 'computers', 'cool', 'courage', 'dad', 'dating', 'death', 'design', 'dreams', 'education',
-    'environmental', 'equality', 'experience', 'failure', 'faith', 'family', 'famous', 'fear', 'fitness', 'food', 'forgiveness',
-    'freedom', 'friendship', 'funny', 'future', 'god', 'good', 'government', 'graduation', 'reat', 'happiness', 'health', 'history', 'home', 'hope', 'humor', 'imagination', 'inspirational', 'intelligence', 'jealousy', 'knowledge', 'leadership', 'learning', 'legal', 'life', 'love', 'marriage', 'medical', 'men', 'mom', 'money', 'morning', 'movies', 'success'];
-let question = '';
-
-const getQuestion = (event) => { question = event.target.value; };
+let uQuestion = '';
 
 butrandom.addEventListener('click', randomQuote);
 userquestion.addEventListener('input', getQuestion);
-
 butbybook.addEventListener('click', getTytleBook);
+
+const getQuestion = (event) => { uQuestion = event.target.value; };
 
 async function getTytleBook() {
     try {
@@ -66,9 +61,12 @@ function answer(quote, target = '') {
 };
 
 async function randomQuote(event) {
-    const questionArr = question.toLowerCase().replace(/[^a-zA-Z\s]+/g, '').split(' ');
-    const firstCommonElement = keyList.find(item => questionArr.includes(item));
-    const category = firstCommonElement != undefined ? firstCommonElement : keyList[keyList.length - questionArr.length];
+    const keys = await tags();
+    const questionArr = uQuestion.toLowerCase().replace(/[^a-zA-Z\s]+/g, '').split(' ');
+    console.log(questionArr);
+    // postQuestion(questionArr);
+    const commonElements = questionArr.map(word => keys.find(item => word == item));
+    const category = commonElements.length > 0 ? commonElements.length > 1 ? commonElements.join('|') : commonElements.join('') : keys[questionArr.length < keys.length / 10 ? Math.floor(Math.random() * keys.length) : Math.floor(Math.random() * questionArr.length)]; // if user input not empty and his words containts in keys, then We need to check it's word or sentence. If it's sentence return string of words seperated | . If input not contains in keys we need to check length of keys and input user for randomaizing 
     try {
         const data = await fetch(`https://api.quotable.io/quotes/random?tags=${category}`);
         if (data.ok) {
@@ -82,3 +80,34 @@ async function randomQuote(event) {
         err;
     }
 };
+
+async function tags() {
+    try {
+        const data = await fetch('https://api.quotable.io/tags')
+        if (data.ok) {
+            const dataJson = await data.json();
+            return dataJson.map(item => item['slug']);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function postQuestion(questionArr) {
+    let question = questionArr.toSorted().join(' ');
+    let newQuestion = { question };
+    let options = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        },
+        body: JSON.stringify(newQuestion),
+    };
+    try {
+        const res = await fetch("http://localhost:8000/fortune/question", options);
+        const data = await res.json();
+        consolee.log(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
