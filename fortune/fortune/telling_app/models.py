@@ -10,10 +10,11 @@ class Book(models.Model):
 
 
 class Quotes(models.Model):
-    bood_id = models.ForeignKey("Book", on_delete=models.CASCADE, null=True)
+    book = models.ForeignKey("Book", on_delete=models.CASCADE, null=True)
     quote = models.TextField(max_length=300)
 
 
-class Question(models.Model):
+class Questions(models.Model):
     question = models.CharField(max_length=100)
+    count = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

@@ -17,7 +17,7 @@ class GetRandomquote(APIView):
             book = Book.objects.get(book=book)
             book_serializer = BookSerializer(book)
             book_id = book_serializer.data["id"]
-            quotes = Quotes.objects.all().filter(bood_id=book_id)
+            quotes = Quotes.objects.all().filter(book_id=book_id)
             quotes_serializer = QuotesSerializer(quotes, many=True)
             quotes_list = [quote["quote"] for quote in quotes_serializer.data]
             quote = quotes_list[random.randrange(0, len(quotes_list))]
@@ -61,3 +61,13 @@ class GetBooks(APIView):
         book = Book.objects.get(id=pk)
         book.delete()
         return Response({"Message": f"Deleted book: {book.book}"})
+
+
+class QuotesBooks(APIView):
+    def get(self, request):
+        try:
+            books = Quotes.objects.all()
+            serializer = QuotesSerializer(books, many=True)
+            return Response(serializer.data, status=HTTP_200_OK)
+        except Exception as e:
+            return Response({"message": str(e)}, status=HTTP_404_NOT_FOUND)
