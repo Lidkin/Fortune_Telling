@@ -36,7 +36,7 @@ class GetBooks(APIView):
         except Exception as e:    
             return Response({"message":str(e)}, status=HTTP_404_NOT_FOUND)      
 
-class PostQuestion(APIView):
+class UserQuestion(APIView):
     def post(self, request):
         serializer = QuestionSerializer(data=request.data)
         if serializer.is_valid():
@@ -49,4 +49,12 @@ class PostQuestion(APIView):
                 new_question = Question(question=serializer['question'], count=1)
                 new_question.save()
             return Response(serializer.data)
-        return Response(serializer.errors)              
+        return Response(serializer.errors)    
+
+    def get(self, request):
+        try:
+            questions = Question.objects.all()
+            serializer = QuestionSerializer(questions, many=True)   
+            return Response(serializer.data, status=HTTP_200_OK)
+        except Exception as e:    
+            return Response({"message":str(e)}, status=HTTP_404_NOT_FOUND)           
