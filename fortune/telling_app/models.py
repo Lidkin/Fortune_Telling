@@ -15,7 +15,7 @@ class Quotes(models.Model):
 
 
 class Questions(models.Model):
-    pattern = models.CharField(max_length=100, null=True)
+    pattern = models.CharField(max_length=100, null=True)  
     question = models.CharField(max_length=100)
     count = models.IntegerField(default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  
