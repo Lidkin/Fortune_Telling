@@ -39,6 +39,7 @@ class GetBooks(APIView):
 class UserQuestion(APIView):
     def post(self, request):
         serializer = QuestionSerializer(data=request.data)
+        print(serializer)
         if serializer.is_valid():
             try:
                 question = Question.objects.get(question=serializer['question'])
