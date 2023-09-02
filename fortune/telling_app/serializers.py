@@ -11,7 +11,7 @@ class QuotesSerializer(serializers.ModelSerializer):
         model = Quotes
         fields = '__all__'  
 
-class QuestionSerializer(serializers.ModelSerializer):
+class QuestionsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Question
+        model = Questions
         fields = '__all__'               

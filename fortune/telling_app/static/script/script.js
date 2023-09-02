@@ -19,6 +19,11 @@ async function getTytleBook() {
 function booksForm(books) {
     const booksList = document.createElement('select');
     booksList.setAttribute('id', 'choice');
+    const defaultOption = document.createElement('option');
+    defaultOption.setAttribute('value', ''); // Set an empty value or any default value you prefer
+    defaultOption.textContent = 'Select a book'; // Text displayed to prompt the user
+    booksList.appendChild(defaultOption);
+
     books.forEach(book => {
         const option = document.createElement('option');
         option.setAttribute('value', book['book']);
@@ -26,7 +31,7 @@ function booksForm(books) {
         booksList.appendChild(option);
     });
 
-    bybook.innerHTML = `<label for="choice">Choose the book:</label>`;
+    bybook.innerHTML = `<label for="choice">Your future is here:</label>`;
     bybook.appendChild(booksList);
 
     booksList.addEventListener('change', searchByBook);
@@ -53,6 +58,7 @@ function answer(quote, target = '') {
         questions.innerHTML = '<button id="postuserquestion">One more time?</button>';
         postuserquestion.addEventListener('click', postQuestion);
     } else {
+        if (bybook.lastElementChild.localName === 'p') bybook.lastElementChild.remove()
         rundAnswer.innerText = quote;
         bybook.appendChild(rundAnswer);
     };
@@ -92,7 +98,7 @@ async function tags() {  // collect every tags from api
 
 async function postQuestion() {
     let question = questionArr.toSorted().join(' ');
-    let newQuestion = { question };
+    let newQuestion = { pattern: questionArr.join(' '), question: question };
     let options = {
         method: "POST",
         headers: {
