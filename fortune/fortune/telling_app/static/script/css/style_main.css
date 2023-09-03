@@ -1,13 +1,18 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Petemoss&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Petemoss&display=swap");
 
 * {
     box-sizing: border-box;
     font-family: "Cinzel", serif;
+    font-size: 25px;
 }
 
 body {
     margin: 0;
     padding: 0;
+    background-color: #353535;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 h1,
@@ -110,6 +115,24 @@ h2 {
     transform: scale(0.9) translateY(30px);
     background-color: white !important;
     transition: all 0.3s 1s;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.messages {
+    margin-bottom: 50px;
+}
+
+input {
+    width: 50%;
+}
+
+#userquestion {
+    margin-top: 50px;
 }
 
 .book-content h3,
@@ -125,7 +148,7 @@ h3 {
 p {
     padding: 0px 30px 10px 30px;
     text-align: justify;
-    font-size: 14px;
+    font-size: 25px;
 }
 
 .book-cover>div {
@@ -147,4 +170,4 @@ p {
 .book:hover>.book-content h3,
 .book:hover>.book-content p {
     opacity: 1;
-} */
+}

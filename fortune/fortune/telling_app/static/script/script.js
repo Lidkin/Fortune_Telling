@@ -99,11 +99,9 @@ async function tags() {  // collect every tags from api
 }
 
 async function postQuestion() {
-    console.log(questionArr)
     let question = questionArr.toSorted().join(' ');
     console.log(question)
     let newQuestion = { pattern: questionArr.join(' '), question: question };
-    console.log(newQuestion)
     let options = {
         method: "POST",
         headers: {
@@ -115,10 +113,11 @@ async function postQuestion() {
         const res = await fetch("http://localhost:8000/fortune/questions/", options);
         const data = await res.json();
         // return data;
-        console.log('data=>',data);
+        console.log('data=>', data);
     } catch (error) {
         console.log(error);
     }
+    window.location.reload();
 }
 
 async function getQuestion(event) {
