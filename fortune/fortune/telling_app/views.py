@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from .permissions import IsAuthenticatedUser
+# from .permissions import IsAuthenticatedUser
 
 from .serializers import *
 from .models import *
@@ -15,7 +15,7 @@ import random
 
 
 class GetRandomquote(APIView):
-    permission_classes = (IsAuthenticatedUser,)
+    # permission_classes = (IsAuthenticatedUser,)
 
     def get(self, request, book: str):
         try:
@@ -32,7 +32,7 @@ class GetRandomquote(APIView):
 
 
 class GetBooks(APIView):
-    permission_classes = (IsAuthenticatedUser,)
+    # permission_classes = (IsAuthenticatedUser,)
 
     def get(self, request, pk=None, format=None):
         try:
@@ -71,7 +71,7 @@ class GetBooks(APIView):
 
 
 class QuotesBooks(APIView):
-    permission_classes = (IsAuthenticatedUser,)
+    # permission_classes = (IsAuthenticatedUser,)
 
     def get(self, request):
         try:
@@ -83,7 +83,7 @@ class QuotesBooks(APIView):
 
 
 class UserQuestion(APIView):
-    permission_classes = (IsAuthenticatedUser,)
+    # permission_classes = (IsAuthenticatedUser,)
 
     def post(self, request):
         serializer = QuestionsSerializer(data=request.data)
@@ -111,6 +111,11 @@ class UserQuestion(APIView):
             return Response(serializer.data, status=HTTP_200_OK)
         except Exception as e:
             return Response({"message": str(e)}, status=HTTP_404_NOT_FOUND)
+        
+    def delete(self, request, pk: int, *args, **kwargs):
+        question = Questions.objects.get(id=pk)
+        question.delete()
+        return Response({"Message": f"Deleted book: {question.question}"})
 
 
 @login_required
