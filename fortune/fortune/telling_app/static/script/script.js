@@ -52,6 +52,7 @@ async function searchByBook(event) {
 function answer(quote, target = '') {
 
     const rundAnswer = document.createElement('p');
+    rundAnswer.classList.add('my_text')
     console.log(questionArr)
     if (target.id === 'butrandom') {
         console.log(questionArr)
