@@ -1,8 +1,8 @@
-let questionArr = '';
+let questionArr = [];
 
 userquestion.addEventListener('submit', getQuestion);
 butbybook.addEventListener('click', getTytleBook);
-
+butstatistic.addEventListener('click', getPopularQuestions);
 
 async function getTytleBook() {
     try {
@@ -52,7 +52,9 @@ async function searchByBook(event) {
 function answer(quote, target = '') {
 
     const rundAnswer = document.createElement('p');
+    console.log(questionArr)
     if (target.id === 'butrandom') {
+        console.log(questionArr)
         rundAnswer.innerText = quote[0]['content'];
         random.appendChild(rundAnswer);
         questions.innerHTML = '<button id="postuserquestion">One more time?</button>';
@@ -97,8 +99,11 @@ async function tags() {  // collect every tags from api
 }
 
 async function postQuestion() {
+    console.log(questionArr)
     let question = questionArr.toSorted().join(' ');
+    console.log(question)
     let newQuestion = { pattern: questionArr.join(' '), question: question };
+    console.log(newQuestion)
     let options = {
         method: "POST",
         headers: {
@@ -107,9 +112,9 @@ async function postQuestion() {
         body: JSON.stringify(newQuestion),
     };
     try {
-        const res = await fetch("http://localhost:8000/fortune/question", options);
+        const res = await fetch("http://localhost:8000/fortune/questions/", options);
         const data = await res.json();
-        return data;
+        console.log('data=>', data);
     } catch (error) {
         console.log(error);
     }
@@ -117,6 +122,23 @@ async function postQuestion() {
 
 async function getQuestion(event) {
     event.preventDefault();
-    questionArr = event.target.question.value.toLowerCase().replace(/[^a-zA-Z\s]+/g, '').split(' ');
+    questionArr = [...event.target.question.value.toLowerCase().replace(/[^a-zA-Z\s]+/g, '').split(' ')]
     randomQuote(questionArr, event.target.butrandom);
+}
+
+async function getPopularQuestions() {
+    try {
+        const questions = await fetch("http://localhost:8000/fortune/questions/popular/3/");
+        const questionsArr = await questions.json();
+        const questionList = questionsArr.map(question => `This question "${question.pattern.split('=')[1]}" was asked ${question.count} times.`)
+        const listQuest = document.createElement('ul');
+        questionList.forEach(quest => {
+            const li = document.createElement('li');
+            li.innerText = quest;
+            listQuest.appendChild(li);
+        })
+        statistic.appendChild(listQuest)
+    } catch (error) {
+        console.log(error);
+    }
 }
