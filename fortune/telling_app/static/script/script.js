@@ -127,18 +127,20 @@ async function getQuestion(event) {
 }
 
 async function getPopularQuestions() {
+    if (statistic.lastElementChild.id != 'butstatistic') statistic.lastElementChild.remove();
     try {
         const questions = await fetch("http://localhost:8000/fortune/questions/popular/3/");
         const questionsArr = await questions.json();
-        const questionList = questionsArr.map(question => `This question "${question.pattern.split('=')[1]}" was asked ${question.count} times.`)
+        const questionList = questionsArr.map(question => `This question "${question.pattern.split('=')[1].replace('errors', '')}" was asked ${question.count} times.`);
         const listQuest = document.createElement('ul');
         questionList.forEach(quest => {
             const li = document.createElement('li');
             li.innerText = quest;
             listQuest.appendChild(li);
         })
-        statistic.appendChild(listQuest)
+        statistic.appendChild(listQuest);
     } catch (error) {
         console.log(error);
     }
 }
+
