@@ -116,6 +116,17 @@ class UserQuestion(APIView):
         question = Questions.objects.get(id=pk)
         question.delete()
         return Response({"Message": f"Deleted book: {question.question}"})
+    
+class PopularQuestions(APIView):
+    def get(self, request, count:int):
+        try:
+            len_of_questions = len(Questions.objects.all())
+            if len_of_questions < count: count = len_of_questions
+            top_three_elements = Questions.objects.order_by('-count')[:count]
+            serializer = QuestionsSerializer(top_three_elements, many=True)
+            return Response(serializer.data, status=HTTP_200_OK)
+        except Exception as e:
+            return Response({"message": str(e)}, status=HTTP_404_NOT_FOUND)  
 
 
 @login_required

@@ -36,6 +36,15 @@ main {
     background-color: #d9d9d9;
 }
 
+#statistic {
+    margin-top: 20px;
+    width: 65%;
+}
+
+#statistic > ul > li {
+    font-size: 20px;
+}
+
 .book {
     --book-height: 100vh;
     --book-ratio: 1.4;

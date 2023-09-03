@@ -2,6 +2,7 @@ let questionArr = [];
 
 userquestion.addEventListener('submit', getQuestion);
 butbybook.addEventListener('click', getTytleBook);
+butstatistic.addEventListener('click', getPopularQuestions);
 
 
 async function getTytleBook() {
@@ -121,8 +122,27 @@ async function postQuestion() {
     window.location.reload();
 }
 
+
 async function getQuestion(event) {
     event.preventDefault();
     questionArr = [...event.target.question.value.toLowerCase().replace(/[^a-zA-Z\s]+/g, '').split(' ')]
     randomQuote(questionArr, event.target.butrandom);
+}
+
+async function getPopularQuestions() {
+    try {
+        const questions = await fetch("http://localhost:8000/fortune/questions/popular/3/");
+        const questionsArr = await questions.json();
+        const questionList = questionsArr.map(question => `Question "${question.pattern.split('=')[1].replace('errors', '')}" was asked ${question.count} time.`)
+        const listQuest = document.createElement('ul');
+        questionList.forEach(quest => {
+            const li = document.createElement('li');
+            li.innerText = quest;
+            listQuest.appendChild(li);
+        })
+        statistic.appendChild(listQuest)
+        butstatistic.setAttribute('disabled', 'true')
+    } catch (error) {
+        console.log(error);
+    }
 }
