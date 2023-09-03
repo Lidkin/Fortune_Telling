@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "telling_app",
     "rest_framework",
-    "accounts"
-    # 'corsheaders',
+    "accounts",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -52,7 +54,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # 'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "fortune.urls"
@@ -126,6 +127,12 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000"  # Add your allowed front-end origins here
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ]
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

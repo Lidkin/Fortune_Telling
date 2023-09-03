@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from .permissions import IsAuthenticatedUser
 
 from .serializers import *
 from .models import *
@@ -12,6 +15,8 @@ import random
 
 
 class GetRandomquote(APIView):
+    permission_classes = (IsAuthenticatedUser,)
+
     def get(self, request, book: str):
         try:
             book = Book.objects.get(book=book)
@@ -27,6 +32,8 @@ class GetRandomquote(APIView):
 
 
 class GetBooks(APIView):
+    permission_classes = (IsAuthenticatedUser,)
+
     def get(self, request, pk=None, format=None):
         try:
             if pk is None:
@@ -64,6 +71,8 @@ class GetBooks(APIView):
 
 
 class QuotesBooks(APIView):
+    permission_classes = (IsAuthenticatedUser,)
+
     def get(self, request):
         try:
             books = Quotes.objects.all()
@@ -71,3 +80,44 @@ class QuotesBooks(APIView):
             return Response(serializer.data, status=HTTP_200_OK)
         except Exception as e:
             return Response({"message": str(e)}, status=HTTP_404_NOT_FOUND)
+
+
+class UserQuestion(APIView):
+    permission_classes = (IsAuthenticatedUser,)
+
+    def post(self, request):
+        serializer = QuestionsSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                question = Questions.objects.get(
+                    question=serializer["question"], pattern=serializer["pattern"]
+                )
+                question.count += 1
+                question.save()
+            except Questions.DoesNotExist:
+                new_question = Questions(
+                    question=serializer["question"],
+                    count=1,
+                    pattern=serializer["pattern"],
+                )
+                new_question.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def get(self, request):
+        try:
+            questions = Questions.objects.all()
+            serializer = QuestionsSerializer(questions, many=True)
+            return Response(serializer.data, status=HTTP_200_OK)
+        except Exception as e:
+            return Response({"message": str(e)}, status=HTTP_404_NOT_FOUND)
+
+
+@login_required
+def dashboard_view(request):
+    user = User.objects.all()
+    context = {
+        "user": request.user,
+    }
+    messages.success(request, f"Hi {context['user']}, welcome back!")
+    return render(request, "telling_app/form.html", context)

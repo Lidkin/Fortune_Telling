@@ -1,0 +1,100 @@
+body {
+    background-color: #333;
+    color: #fff;
+    /* Set text color to white for better readability on dark background */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /* Center content vertically and horizontally */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    height: 100vh;
+    flex-direction: column;
+    /* Ensure the page takes up the full viewport height */
+}
+
+
+
+/* Style the "Logout" link */
+#formlogin a {
+    text-decoration: none;
+    color: #f0f0f0;
+    /* Lighter text color */
+    font-weight: bold;
+    float: right;
+    margin-right: 10px;
+}
+
+/* Style the messages/alerts */
+.messages {
+    margin-top: 20px;
+}
+
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.alert-success {
+    background-color: #5cb85c;
+    /* Success alert background color */
+    border-color: #4cae4c;
+    color: #fff;
+}
+
+.alert-danger {
+    background-color: #d9534f;
+    /* Error alert background color */
+    border-color: #d43f3a;
+    color: #fff;
+}
+
+/* Style the "Fortune By Book" button */
+#butbybook {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Style the "Ask me about future" form */
+#userquestion {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #f0f0f0;
+    /* Lighter text color for labels */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #555;
+    /* Darker border color */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #444;
+    /* Slightly lighter background color for text input */
+    color: #fff;
+    /* Text color for text input */
+}
+
+#butrandom {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}

@@ -6,6 +6,8 @@ from .forms import LoginForm, RegisterForm
 
 
 def sign_up(request):
+    
+    
     if request.method == "GET":
         form = RegisterForm()
         return render(request, "accounts/register.html", {"form": form})
@@ -18,7 +20,7 @@ def sign_up(request):
             user.save()
             messages.success(request, "You have singed up successfully.")
             login(request, user)
-            return redirect("hello")
+            return redirect("form")
         else:
             return render(request, "accounts/register.html", {"form": form})
 
@@ -26,7 +28,7 @@ def sign_up(request):
 def sign_in(request):
     if request.method == "GET":
         if request.user.is_authenticated:
-            return redirect("hello")
+            return redirect("form")
 
         form = LoginForm()
         return render(request, "accounts/login.html", {"form": form})
@@ -40,8 +42,7 @@ def sign_in(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                messages.success(request, f"Hi {username.title()}, welcome back!")
-                return redirect("hello")
+                return redirect("form")
 
         # form is not valid or user is not authenticated
         messages.error(request, f"Invalid username or password")
@@ -53,7 +54,3 @@ def sign_out(request):
     messages.success(request, f"You have been logged out.")
     return redirect("login")
 
-
-@login_required
-def dashboard_view(request):
-    return render(request, "accounts/hello.html")
