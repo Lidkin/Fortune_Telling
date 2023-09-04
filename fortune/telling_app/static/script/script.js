@@ -68,6 +68,7 @@ function answer(quote, target = '') {
     };
 };
 
+
 async function randomQuote(questions, target) {  // genereted random qutes from api by tags
     const keys = await tags();
     const commonElements = questions.map(word => keys.includes(word) ? word : 'none');
