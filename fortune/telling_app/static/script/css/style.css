@@ -1,100 +1,150 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Petemoss&display=swap");
+
+* {
+    box-sizing: border-box;
+    font-family: "Cinzel", serif;
+}
+
 body {
-    background-color: #333;
-    color: #fff;
-    /* Set text color to white for better readability on dark background */
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    margin: 0;
+}
+
+main {
     display: flex;
-    /* Center content vertically and horizontally */
     justify-content: center;
-    /* Center horizontally */
+    background-color: #d9d9d9;
+}
+
+.book {
+    --book-height: 100vh;
+    --book-ratio: 1.4;
+}
+
+.book>div {
+    height: var(--book-height);
+    width: calc(var(--book-height) / var(--book-ratio));
+    overflow: auto;
+    background-color: #0a0a0a;
+    transform: scale(0.9);
+    border-radius: 6px;
+    transform-origin: left;
+}
+
+.book-cover {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    /* Center vertically */
-    height: 100vh;
-    flex-direction: column;
-    /* Ensure the page takes up the full viewport height */
+    position: absolute;
+    z-index: 9;
+    text-align: center;
+    background: linear-gradient(135deg, black 25%, transparent 25%) -50px 0,
+        linear-gradient(225deg, black 25%, transparent 25%) -50px 0,
+        linear-gradient(315deg, black 25%, transparent 25%),
+        linear-gradient(45deg, black 25%, transparent 25%);
+    background-size: 2em 2em;
+    background-color: #232323;
+    color: white;
+    transition: transform 2s;
 }
 
-
-
-/* Style the "Logout" link */
-#formlogin a {
-    text-decoration: none;
-    color: #f0f0f0;
-    /* Lighter text color */
-    font-weight: bold;
-    float: right;
-    margin-right: 10px;
+.book-cover::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+    background-color: #b11509;
 }
 
-/* Style the messages/alerts */
-.messages {
-    margin-top: 20px;
+h1 {
+    font-family: "Petemoss", cursive;
+    font-size: 98px;
+    font-weight: 300;
+    color: #dbd75d;
 }
 
-.alert {
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+h2 {
+    font-size: 16px;
 }
 
-.alert-success {
-    background-color: #5cb85c;
-    /* Success alert background color */
-    border-color: #4cae4c;
-    color: #fff;
+.separator {
+    --separator-size: 8px;
+    width: var(--separator-size);
+    height: var(--separator-size);
+    background-color: #dbd75d;
+    margin: 50px auto 60px auto;
+    border-radius: 50%;
+    position: relative;
 }
 
-.alert-danger {
-    background-color: #d9534f;
-    /* Error alert background color */
-    border-color: #d43f3a;
-    color: #fff;
+.separator::after,
+.separator::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    background-color: white;
+    height: 2px;
+    top: calc(50% - 1px);
 }
 
-/* Style the "Fortune By Book" button */
-#butbybook {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
+.separator::after {
+    left: 15px;
 }
 
-/* Style the "Ask me about future" form */
-#userquestion {
-    margin-top: 20px;
+.separator::before {
+    right: 15px;
 }
 
-label {
-    display: block;
-    margin-bottom: 10px;
-    color: #f0f0f0;
-    /* Lighter text color for labels */
+.book-content {
+    transform: scale(0.9) translateY(30px);
+    background-color: white !important;
+    transition: all 0.3s 1s;
 }
 
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #555;
-    /* Darker border color */
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: #444;
-    /* Slightly lighter background color for text input */
-    color: #fff;
-    /* Text color for text input */
+.book-content h3,
+.book-content p {
+    opacity: 0;
+    transition: all 0.3s 0.3s;
 }
 
-#butrandom {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
+h3 {
+    padding: 30px;
 }
+
+p {
+    padding: 0px 30px 10px 30px;
+    text-align: justify;
+    font-size: 14px;
+}
+
+.book-cover>div {
+    transition: opacity 0s 0.6s;
+}
+
+.book:hover>.book-cover {
+    transform: rotateY(180deg) scale(0.9);
+}
+
+.book:hover>.book-cover>div {
+    opacity: 0;
+}
+
+.book:hover>.book-content {
+    transform: scale(0.9) translateY(0px);
+}
+
+.book:hover>.book-content h3,
+.book:hover>.book-content p {
+    opacity: 1;
+} */

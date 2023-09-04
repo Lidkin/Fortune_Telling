@@ -116,8 +116,7 @@ class UserQuestion(APIView):
         question = Questions.objects.get(id=pk)
         question.delete()
         return Response({"Message": f"Deleted book: {question.question}"})
-
-
+    
 class PopularQuestions(APIView):
     def get(self, request, count:int):
         try:

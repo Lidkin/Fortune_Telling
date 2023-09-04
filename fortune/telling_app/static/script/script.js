@@ -4,6 +4,7 @@ userquestion.addEventListener('submit', getQuestion);
 butbybook.addEventListener('click', getTytleBook);
 butstatistic.addEventListener('click', getPopularQuestions);
 
+
 async function getTytleBook() {
     try {
         const booksData = await fetch('http://localhost:8000/fortune/books/');
@@ -52,6 +53,7 @@ async function searchByBook(event) {
 function answer(quote, target = '') {
 
     const rundAnswer = document.createElement('p');
+    rundAnswer.classList.add('my_text')
     console.log(questionArr)
     if (target.id === 'butrandom') {
         console.log(questionArr)
@@ -99,11 +101,9 @@ async function tags() {  // collect every tags from api
 }
 
 async function postQuestion() {
-    console.log(questionArr)
     let question = questionArr.toSorted().join(' ');
     console.log(question)
     let newQuestion = { pattern: questionArr.join(' '), question: question };
-    console.log(newQuestion)
     let options = {
         method: "POST",
         headers: {
@@ -114,11 +114,14 @@ async function postQuestion() {
     try {
         const res = await fetch("http://localhost:8000/fortune/questions/", options);
         const data = await res.json();
+        // return data;
         console.log('data=>', data);
     } catch (error) {
         console.log(error);
     }
+    window.location.reload();
 }
+
 
 async function getQuestion(event) {
     event.preventDefault();
@@ -127,20 +130,19 @@ async function getQuestion(event) {
 }
 
 async function getPopularQuestions() {
-    if (statistic.lastElementChild.id != 'butstatistic') statistic.lastElementChild.remove();
     try {
         const questions = await fetch("http://localhost:8000/fortune/questions/popular/3/");
         const questionsArr = await questions.json();
-        const questionList = questionsArr.map(question => `This question "${question.pattern.split('=')[1].replace('errors', '')}" was asked ${question.count} times.`);
+        const questionList = questionsArr.map(question => `Question "${question.pattern.split('=')[1].replace('errors', '')}" was asked ${question.count} time.`)
         const listQuest = document.createElement('ul');
         questionList.forEach(quest => {
             const li = document.createElement('li');
             li.innerText = quest;
             listQuest.appendChild(li);
         })
-        statistic.appendChild(listQuest);
+        statistic.appendChild(listQuest)
+        butstatistic.setAttribute('disabled', 'true')
     } catch (error) {
         console.log(error);
     }
 }
-
