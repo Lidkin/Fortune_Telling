@@ -21,8 +21,8 @@ function booksForm(books) {
     const booksList = document.createElement('select');
     booksList.setAttribute('id', 'choice');
     const defaultOption = document.createElement('option');
-    defaultOption.setAttribute('value', ''); // Set an empty value or any default value you prefer
-    defaultOption.textContent = 'Select a book'; // Text displayed to prompt the user
+    defaultOption.setAttribute('value', '');
+    defaultOption.textContent = 'Select a book';
     booksList.appendChild(defaultOption);
 
     books.forEach(book => {
@@ -68,7 +68,7 @@ function answer(quote, target = '') {
     };
 };
 
-async function randomQuote(questions, target) {  // genereted random qutes from api by tags
+async function randomQuote(questions, target) {
     const keys = await tags();
     const commonElements = questions.map(word => keys.includes(word) ? word : 'none');
     const Elements = commonElements.filter(el => el != 'none');
@@ -88,7 +88,7 @@ async function randomQuote(questions, target) {  // genereted random qutes from 
     };
 };
 
-async function tags() {  // collect every tags from api
+async function tags() {
     try {
         const data = await fetch('https://api.quotable.io/tags');
         if (data.ok) {
